@@ -1,0 +1,192 @@
+package components
+
+// Base template with header set, takes page title as argument
+templ base(title string) {
+	<!DOCTYPE html>
+	<html lang="en" _="on load if localStorage.dataTheme == 'light' then add [@data-theme=light] else if localStorage.dataTheme == 'dark' then add [@data-theme=dark] end end">
+		<head>
+			<title>{ title }</title>
+			<link rel="icon" type="image/png" href="/assets/favicon.png"/>
+			<script src="/assets/js/_hyperscript.min.js"></script>
+			<script src="/assets/js/htmx.min.js"></script>
+			<link
+				rel="stylesheet"
+				href="/assets/css/styles.css"
+			/>
+		</head>
+		<body>
+			<header>
+				<div>
+					<h1>{ title }</h1>
+					<nav>
+						@ThemeOptions()
+					</nav>
+				</div>
+			</header>
+			<article>
+				{ children... }
+			</article>
+			<footer>
+				@GithubLink()
+			</footer>
+		</body>
+	</html>
+}
+
+templ ThemeSelector() {
+	<button class="theme-button">
+		<svg
+			width="32px"
+			height="32px"
+			version="1.1"
+			id="Icons"
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			viewBox="0 0 32 32"
+			xml:space="preserve"
+			fill="#ffffff"
+		>
+			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+			<g id="SVGRepo_iconCarrier">
+				<style type="text/css"> .st0{fill:none;stroke:#FBFAF7;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#FBFAF7;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} </style>
+				<line class="st0" x1="16" y1="3" x2="16" y2="29"></line>
+				<path class="st0" d="M16,23c-3.87,0-7-3.13-7-7s3.13-7,7-7"></path>
+				<line class="st0" x1="6.81" y1="6.81" x2="8.93" y2="8.93"></line>
+				<line class="st0" x1="3" y1="16" x2="6" y2="16"></line>
+				<line class="st0" x1="6.81" y1="25.19" x2="8.93" y2="23.07"></line>
+				<path
+					class="st0"
+					d="M16,12.55C17.2,10.43,19.48,9,22.09,9c0.16,0,0.31,0.01,0.47,0.02c-1.67,0.88-2.8,2.63-2.8,4.64 c0,2.9,2.35,5.25,5.25,5.25c1.6,0,3.03-0.72,3.99-1.85C28.48,20.43,25.59,23,22.09,23c-2.61,0-4.89-1.43-6.09-3.55"
+				></path>
+			</g>
+		</svg>
+	</button>
+}
+
+templ ThemeOptions() {
+	<details class="theme-button">
+		<summary>
+			@SunMoon()
+		</summary>
+		<ul>
+			<li>
+				<label>
+					<input
+						type="radio"
+						name="theme"
+						_="on load if localStorage.dataTheme == null add [@checked] end on click remove [@data-theme] from <html/> then localStorage.clear('dataTheme')"
+					/>
+					@SystemThemeOption()
+				</label>
+			</li>
+			<li>
+				<label>
+					<input
+						type="radio"
+						name="theme"
+						_="on load if localStorage.dataTheme == 'light' add [@checked] end on click add [@data-theme=light] to <html/> then set localStorage.dataTheme to 'light'"
+					/>
+					@LightThemeOption()
+				</label>
+			</li>
+			<li>
+				<label>
+					<input
+						type="radio"
+						name="theme"
+						_="on load if localStorage.dataTheme == 'dark' add [@checked] end on click add [@data-theme=dark] to <html/> then set localStorage.dataTheme to 'dark'"
+					/>
+					@DarkThemeOption()
+				</label>
+			</li>
+		</ul>
+	</details>
+}
+
+templ SystemThemeOption() {
+	<svg class="icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#FBFAF7">
+		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+		<g id="SVGRepo_iconCarrier">
+			<title>computer-setting</title>
+			<g id="Layer_2" data-name="Layer 2">
+				<g id="invisible_box" data-name="invisible box">
+					<rect width="48" height="48" fill="none"></rect>
+				</g>
+				<g id="icons_Q2" data-name="icons Q2">
+					<g>
+						<path d="M7,34H19a2,2,0,0,0,0-4H9V10H39V30H29a2,2,0,0,0,0,4H41a2,2,0,0,0,2-2V8a2,2,0,0,0-2-2H7A2,2,0,0,0,5,8V32A2,2,0,0,0,7,34Z"></path>
+						<path d="M44,38H4a2,2,0,0,0,0,4H44a2,2,0,0,0,0-4Z"></path>
+						<path d="M31.9,21.3A5.7,5.7,0,0,0,32,20a5.7,5.7,0,0,0-.1-1.3l-2.2-.5a4.2,4.2,0,0,0-.4-1l1.2-1.9a7.7,7.7,0,0,0-1.8-1.8l-1.9,1.2-1-.4-.5-2.2H22.7l-.5,2.2-1,.4-1.9-1.2a7.7,7.7,0,0,0-1.8,1.8l1.2,1.9a4.2,4.2,0,0,0-.4,1l-2.2.5A5.7,5.7,0,0,0,16,20a5.7,5.7,0,0,0,.1,1.3l2.2.5a4.2,4.2,0,0,0,.4,1l-1.2,1.9a7.7,7.7,0,0,0,1.8,1.8l1.9-1.2,1,.4.5,2.2h2.6l.5-2.2,1-.4,1.9,1.2a7.7,7.7,0,0,0,1.8-1.8l-1.2-1.9a4.2,4.2,0,0,0,.4-1ZM24,22a2,2,0,1,1,2-2A2,2,0,0,1,24,22Z"></path>
+					</g>
+				</g>
+			</g>
+		</g>
+	</svg> System
+}
+
+templ LightThemeOption() {
+	<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+		<g id="SVGRepo_iconCarrier">
+			<path
+				d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
+				stroke="#FBFAF7"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			></path>
+		</g>
+	</svg> Light
+}
+
+templ DarkThemeOption() {
+	<svg class="icon" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" stroke="#FBFAF7">
+		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+		<g id="SVGRepo_iconCarrier">
+			<path d="M 31.3163 14.8867 C 31.5975 14.8867 31.7616 14.6992 31.8085 14.4414 C 32.5351 10.5508 32.5116 10.4570 36.5663 9.6602 C 36.8475 9.6133 37.0116 9.4727 37.0116 9.1914 C 37.0116 8.8867 36.8475 8.7461 36.5663 8.6992 C 32.5116 7.8789 32.5351 7.8086 31.8085 3.9180 C 31.7616 3.6602 31.5975 3.4727 31.3163 3.4727 C 31.0351 3.4727 30.8944 3.6602 30.8475 3.9180 C 30.0975 7.8086 30.1444 7.8789 26.0663 8.6992 C 25.8085 8.7461 25.6210 8.8867 25.6210 9.1914 C 25.6210 9.4727 25.8085 9.6133 26.0663 9.6602 C 30.1679 10.4570 30.0975 10.5508 30.8475 14.4414 C 30.8944 14.6992 31.0351 14.8867 31.3163 14.8867 Z M 42.5429 30.7305 C 42.9648 30.7305 43.2694 30.4258 43.3163 29.9805 C 44.0897 23.6758 44.3475 23.5820 50.7462 22.5273 C 51.2617 22.4336 51.5665 22.1992 51.5665 21.7305 C 51.5665 21.2851 51.2617 21.0039 50.8398 20.9336 C 44.3475 19.8320 44.0897 19.7851 43.3163 13.4805 C 43.2694 13.0351 42.9648 12.7305 42.5429 12.7305 C 42.0975 12.7305 41.7929 13.0351 41.7460 13.4570 C 40.9257 19.7617 40.7382 19.8320 34.2226 20.9336 C 33.8007 21.0039 33.4960 21.2851 33.4960 21.7305 C 33.4960 22.1758 33.8007 22.4336 34.2226 22.5273 C 40.7382 23.5820 40.9726 23.6758 41.7460 30.0273 C 41.7929 30.4258 42.0975 30.7305 42.5429 30.7305 Z M 24.9179 52.5273 C 33.4960 52.5273 40.4335 48.2148 43.5975 40.8789 C 44.0194 39.8711 43.8788 39.0976 43.4335 38.6289 C 43.0116 38.2305 42.3085 38.1367 41.4648 38.4649 C 39.7070 39.1680 37.5507 39.5664 34.8554 39.5664 C 24.3788 39.5664 17.6288 33.0273 17.6288 22.7383 C 17.6288 19.9023 18.1679 17.0898 18.8944 15.6133 C 19.3632 14.6758 19.3163 13.8789 18.9179 13.3867 C 18.4726 12.8711 17.6757 12.7070 16.5741 13.1523 C 9.3788 16.0820 4.4335 23.5820 4.4335 32.3476 C 4.4335 43.7617 12.8241 52.5273 24.9179 52.5273 Z M 24.9648 48.9648 C 14.9570 48.9648 7.9960 41.6758 7.9960 32.0664 C 7.9960 26.1602 10.7382 20.9570 15.0975 17.6289 C 14.5351 19.1523 14.2070 21.4961 14.2070 23.7461 C 14.2070 35.2773 22.1757 43.0117 33.9648 43.0117 C 36.0741 43.0117 37.9960 42.7539 38.9804 42.4023 C 36.0507 46.4570 30.8241 48.9648 24.9648 48.9648 Z"></path>
+		</g>
+	</svg> Dark
+}
+
+templ GithubLink() {
+	<a href="https://github.com/RicHolland/CV" target="_blank">
+		<svg id="github" xmlns="http://www.w3.org/2000/svg" width="49px" height="48px" viewBox="0 0 49 48" version="1.1">
+			<g id="surface1">
+				<path d="M 24.425781 0 C 10.917969 0 0 11 0 24.609375 C 0 35.488281 6.996094 44.695312 16.703125 47.953125 C 17.914062 48.199219 18.359375 47.425781 18.359375 46.773438 C 18.359375 46.203125 18.320312 44.246094 18.320312 42.210938 C 11.527344 43.675781 10.109375 39.277344 10.109375 39.277344 C 9.019531 36.421875 7.402344 35.691406 7.402344 35.691406 C 5.175781 34.183594 7.5625 34.183594 7.5625 34.183594 C 10.03125 34.347656 11.324219 36.710938 11.324219 36.710938 C 13.507812 40.457031 17.027344 39.398438 18.441406 38.746094 C 18.644531 37.15625 19.289062 36.058594 19.976562 35.445312 C 14.558594 34.875 8.855469 32.757812 8.855469 23.304688 C 8.855469 20.617188 9.828125 18.414062 11.363281 16.703125 C 11.121094 16.09375 10.273438 13.566406 11.605469 10.183594 C 11.605469 10.183594 13.667969 9.535156 18.320312 12.710938 C 20.3125 12.171875 22.363281 11.898438 24.425781 11.898438 C 26.488281 11.898438 28.59375 12.183594 30.535156 12.710938 C 35.183594 9.535156 37.246094 10.183594 37.246094 10.183594 C 38.582031 13.566406 37.730469 16.09375 37.488281 16.703125 C 39.066406 18.414062 39.996094 20.617188 39.996094 23.304688 C 39.996094 32.757812 34.296875 34.835938 28.835938 35.445312 C 29.726562 36.21875 30.492188 37.6875 30.492188 40.007812 C 30.492188 43.308594 30.453125 45.957031 30.453125 46.773438 C 30.453125 47.425781 30.898438 48.199219 32.109375 47.953125 C 41.816406 44.695312 48.8125 35.488281 48.8125 24.609375 C 48.851562 11 37.894531 0 24.425781 0 Z M 24.425781 0 "></path>
+			</g>
+		</svg>
+	</a>
+}
+
+templ SunMoon() {
+	<svg
+		width="32px"
+		height="32px"
+		version="1.1"
+		id="Icons"
+		xmlns="http://www.w3.org/2000/svg"
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		viewBox="0 0 32 32"
+		xml:space="preserve"
+		fill="#ffffff"
+	>
+		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+		<g id="SVGRepo_iconCarrier">
+			<style type="text/css"> .sm0{fill:none;stroke:#FBFAF7;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#FBFAF7;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} </style>
+			<line class="sm0" x1="16" y1="3" x2="16" y2="29"></line>
+			<path class="sm0" d="M16,23c-3.87,0-7-3.13-7-7s3.13-7,7-7"></path>
+			<line class="sm0" x1="6.81" y1="6.81" x2="8.93" y2="8.93"></line>
+			<line class="sm0" x1="3" y1="16" x2="6" y2="16"></line>
+			<line class="sm0" x1="6.81" y1="25.19" x2="8.93" y2="23.07"></line>
+			<path
+				class="sm0"
+				d="M16,12.55C17.2,10.43,19.48,9,22.09,9c0.16,0,0.31,0.01,0.47,0.02c-1.67,0.88-2.8,2.63-2.8,4.64 c0,2.9,2.35,5.25,5.25,5.25c1.6,0,3.03-0.72,3.99-1.85C28.48,20.43,25.59,23,22.09,23c-2.61,0-4.89-1.43-6.09-3.55"
+			></path>
+		</g>
+	</svg>
+}

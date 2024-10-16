@@ -1,0 +1,5 @@
+assets/js/*
+*_templ.go
+tmp/
+.DS_Store
+

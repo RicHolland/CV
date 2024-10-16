@@ -1,0 +1,84 @@
+package components
+
+import "cv/types"
+
+var sylvera = types.WorkDetails{}
+
+templ Index() {
+	@base("Ric Holland") {
+		@GoogleDocLogo()
+		<p>
+			A Data Engineer professional extensively experienced with distributed data systems both in the cloud and on premises Hadoop clusters. Experience in designing and implementing ETL data pipelines in Python, SQL, Java and Scala, predictive models in R using machine learning algorithms and building microservices. A fast and eager learner, I am interested in gaining a wider experience in the field. I am looking towards a more senior position for my next role, preferably working with cloud technologies, focussed on Python over JVM languages, and exposure to  ML in cross functional, agile teams.
+		</p>
+		<h2>Professional Experience</h2>
+		@Job(types.WorkDetails{
+			Role:        "Senior Data Engineer",
+			Name:        "Sylvera",
+			From:        "August 2021",
+			To:          "Present",
+			Description: []string{"Built an API with FastAPI over the central database, combining third party data about various carbon offset projects."},
+		})
+		@Job(types.WorkDetails{
+			Role:        "Data Engineer (IC5)",
+			Name:        "Facebook",
+			From:        "August 2020",
+			To:          "April 2021",
+			Description: []string{"Part of the Commerce Opportunities team, worked with the international and shop ads cross-functional teams to lead designing and implementing data models relating to ads targeting shops on Facebook and Instagram and products to localise shops and ads for the worldwide user base. Defined Data Engineering strategy for the above teams and built pipelines using internal tools in Python and SQL on datasets at up to petabyte scales."},
+		})
+		<p>I have worked various other jobs, mainly in customer service roles, but have omitted these for brevity.</p>
+		<h2>Education</h2>
+		@Job(types.WorkDetails{
+			Name:        "University of Manchester, MPhys Physics",
+			From:        "2009",
+			To:          "2012",
+			Description: []string{"Modules studied included Nuclear Physics, Particle Physics, Quantum Mechanics, Solid State Physics, Electromagnetism, Cosmology, Statistical Physics and 2 MPhys projects (Characterisation of 3D Silicon Sensors and Laser Tweezing), as well as taking modules in Enterprise, German, Financial Mathematics and object oriented programming using C++.", "Grade: 2:2"},
+		})
+		@Job(types.WorkDetails{
+			Name:        "Balliol College, Oxford University",
+			From:        "2007",
+			To:          "2009",
+			Description: []string{"Completed two years of the BA Physics course."},
+		})
+	}
+}
+
+templ Job(workDetails types.WorkDetails) {
+	<div class="column">
+		<div class="workplace">
+			<h3>{ workDetails.Role }, { workDetails.Name }</h3>
+			<span>{ workDetails.From } - { workDetails.To }</span>
+		</div>
+		for _, paragraph := range workDetails.Description {
+			<p>{ paragraph }</p>
+		}
+	</div>
+}
+
+templ GoogleDocLogo() {
+	<a href="https://docs.google.com/document/d/1_IUKZTT0uibWI_Gw-NxNyo1qtcm7H5jgNjhpYVBQ6j8/edit?usp=sharing">
+		<svg
+			height="20px"
+			version="1.1"
+			id="Layer_1"
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			x="0px"
+			y="0px"
+			viewBox="0 0 64 88"
+			style="enable-background:new 0 0 64 88;"
+			xml:space="preserve"
+		>
+			<style type="text/css">
+               	.st0{fill:#3086F6;}
+               	.st1{fill:#0C67D6;}
+               	.st2{fill:#FDFFFF;}
+            </style>
+			<g id="Layer_5">
+				<path class="st0" d="M58,88H6c-3.3,0-6-2.7-6-6V6c0-3.3,2.7-6,6-6h36l22,22v60C64,85.3,61.3,88,58,88z"></path>
+				<path class="st1" d="M42,0l22,22H42V0z"></path>
+				<path class="st2" d="M50,39H14v-5h36V39z M50,46H14v5h36V46z M40,58H14v5h26V58z"></path>
+			</g>
+		</svg>
+		As Google Doc
+	</a>
+}
